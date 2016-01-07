@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BillingSoftware.Helper
+namespace BillingSoftware.Constants
 {
-    public class ErrorConstants
+    public class BillingEnums
     {
     }
 }

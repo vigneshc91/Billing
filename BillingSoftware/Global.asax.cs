@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BillingSoftware.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,8 @@ namespace BillingSoftware
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            new ElasticSearchManager();
         }
     }
 }
