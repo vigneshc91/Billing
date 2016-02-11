@@ -1,5 +1,6 @@
 ﻿using BillingSoftware.Constants;
 using BillingSoftware.Helper;
+using BillingSoftware.Models;
 using Elasticsearch.Net.ConnectionPool;
 using Nest;
 using System;
@@ -33,7 +34,7 @@ namespace BillingSoftware.Managers
                 if (!elasticClient.IndexExists(ElasticMappingConstants.INDEX_NAME).Exists)
                 {
                     var indexCreationResponse = elasticClient.CreateIndex(i => i
-                    .Index(ElasticMappingConstants.INDEX_NAME));
+                                                    .Index(ElasticMappingConstants.INDEX_NAME));
 
                     if(indexCreationResponse.ConnectionStatus.HttpStatusCode != 200)
                     {
@@ -41,6 +42,7 @@ namespace BillingSoftware.Managers
                     }
 
                     mappings.CheckMappings(elasticClient);
+                    AddSuperAdmin();
                 }
             }
             catch (Exception e)
@@ -48,6 +50,51 @@ namespace BillingSoftware.Managers
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
             }
+        }
+
+        public void AddSuperAdmin()
+        {
+            var elasticClient = GetElasticClient();
+
+            var termFilter = new TermFilter()
+            {
+                Field = ConstAdmin.TYPE,
+                Value = (short)BillingEnums.USER_TYPE.SUPER_ADMIN
+            };
+
+            try
+            {
+                var response = elasticClient.Search<Admin>(a => a
+                                .Index(ElasticMappingConstants.INDEX_NAME)
+                                .Type(ElasticMappingConstants.TYPE_ADMIN)
+                                .Filter(termFilter)
+                                .Take(1));
+
+                if (response.Total == 0)
+                {
+                    var salt = PasswordHash.GenerateSalt();
+                    var admin = new Admin()
+                    {
+                        id = Guid.NewGuid(),
+                        username = AppConstants.SUPER_ADMIN_USER_NAME,
+                        salt = salt,
+                        password = PasswordHash.CreateHash(AppConstants.SUPER_ADMIN_PASSWORD, salt),
+                        created_at = DateTime.UtcNow
+                    };
+
+                    var create = elasticClient.Index<Admin>(admin, i => i
+                                    .Index(ElasticMappingConstants.INDEX_NAME)
+                                    .Type(ElasticMappingConstants.TYPE_ADMIN));
+                    
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.Error.WriteLine(e.GetBaseException().Message);
+            }
+
+            
         }
 
         public ElasticClient GetElasticClient()
