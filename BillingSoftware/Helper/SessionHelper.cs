@@ -14,14 +14,16 @@ namespace BillingSoftware.Helper
         {
             if (session == null || String.IsNullOrWhiteSpace(session.id)) throw new Exception(ErrorConstants.LOGIN_FAILED);
 
+            HttpContext.Current.Session["UserProfile"] = session;
+
             return session.id;
         }
 
         public static Admin GetLoggedInAdmin(string token)
         {
             if (String.IsNullOrEmpty(token)) return null;
-            var admin = new Admin();
-            return admin;
+            var admin = (AdminSession<Admin>) HttpContext.Current.Session["UserProfile"];
+            return admin.user;
         }
 
         }
