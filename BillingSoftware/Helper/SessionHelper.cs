@@ -19,6 +19,11 @@ namespace BillingSoftware.Helper
             return session.id;
         }
 
+        public static void RemoveSession<T>()where T : class
+        {
+            HttpContext.Current.Session.Remove("UserProfile");
+        }
+
         public static Admin GetLoggedInAdmin(string token)
         {
             if (String.IsNullOrEmpty(token)) return null;
