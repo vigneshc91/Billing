@@ -43,7 +43,7 @@ namespace BillingSoftware.Controllers
                 var admin = adminManager.LoginAdmin(userName, password);
                 if (admin != null)
                 {
-                    response.result = CookieHelper.SetSession(HttpContext, admin);
+                    response.result = CookieHelper.SetSession(HttpContext, admin) ? AppConstants.LOGIN_SUCCESS: ErrorConstants.LOGIN_FAILED;
                     response.status = response.result == null ? false : true;
                 }
                 else
@@ -83,6 +83,44 @@ namespace BillingSoftware.Controllers
             }
 
             return View();
+        }
+
+        public JsonResult CreateAdmin()
+        {
+            var userName = Request.Params.Get(AppConstants.USER_NAME);
+
+            var response = new ServiceResponse();
+            var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
+            if(admin == null)
+            {
+                response.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
+                return Json(response);
+            }
+            if (String.IsNullOrWhiteSpace(userName))
+            {
+                response.result = ErrorConstants.REQUIRED_FIELD_EMPTY;
+                return Json(response);
+            }
+
+            try
+            {
+                if (adminManager.CreateAdmin(admin, userName))
+                {
+                    response.result = AppConstants.ADMIN_CREATED;
+                    response.status = true;
+                }
+                else
+                    response.result = ErrorConstants.PROBLEM_CREATING_ADMIN;
+
+                return Json(response);
+
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.GetBaseException().Message);
+            }
+
+            return Json(response);
         }
     }
 }

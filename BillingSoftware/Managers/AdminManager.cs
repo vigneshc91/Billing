@@ -25,14 +25,8 @@ namespace BillingSoftware.Managers
                     Value = userName
                 };
 
-                var passwordFilter = new TermFilter() {
-                    Field = ConstAdmin.PASSWORD,
-                    Value = password
-                };
-
                 var loginFilters = new List<FilterContainer>();
                 loginFilters.Add(userNameFilter);
-                loginFilters.Add(passwordFilter);
 
                 var loginFilter = new AndFilter();
                 loginFilter.Filters = loginFilters;
@@ -45,14 +39,19 @@ namespace BillingSoftware.Managers
 
                 var admin = new Admin();
 
-                if(loginResponse.Total > 0)
+                if (loginResponse.Total > 0)
                 {
                     foreach (IHit<Admin> hit in loginResponse.Hits)
                     {
                         admin = hit.Source;
                     }
+                    if (!PasswordHash.ValidatePassword(password, admin.password, admin.salt))
+                        throw new Exception(ErrorConstants.WRONG_PASSWORD);
                     return admin;
                 }
+                else
+                    return null;
+
 
                 return admin;
 
@@ -79,6 +78,56 @@ namespace BillingSoftware.Managers
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
                 throw new Exception(ErrorConstants.PROBLEM_LOGOUT);
+            }
+        }
+
+        public bool CreateAdmin(Admin admin, string userName)
+        {
+            if (String.IsNullOrWhiteSpace(userName)) throw new Exception();
+            if (admin == null || admin.type != (int)BillingEnums.USER_TYPE.SUPER_ADMIN) throw new Exception();
+
+            var newAdmin = new Admin()
+            {
+                id = Guid.NewGuid(),
+                username = userName,
+                type = (int)BillingEnums.USER_TYPE.ADMIN,
+                created_at = DateTime.UtcNow
+            };
+
+            try
+            {
+                var elasticClient = GetElasticClient();
+
+                var userNameFilter = new TermFilter()
+                {
+                    Field = ConstAdmin.USER_NAME,
+                    Value = userName
+                };
+
+                var adminList = elasticClient.Search<Admin>(s => s
+                .Index(ElasticMappingConstants.INDEX_NAME)
+                .Type(ElasticMappingConstants.TYPE_ADMIN)
+                .Filter(userNameFilter)
+                );
+
+                if(adminList.Total > 0)
+                {
+                    throw new Exception(ErrorConstants.ADMIN_USERNAME_ALREADY_TAKEN);
+                }
+
+                var response = elasticClient.Index<Admin>(admin, i => i
+                .Index(ElasticMappingConstants.INDEX_NAME)
+                .Type(ElasticMappingConstants.TYPE_ADMIN)
+                );
+
+                return response.Created;
+
+            }
+            catch (Exception e)
+            {
+                
+                Console.Error.WriteLine(e.GetBaseException().Message);
+                throw e;
             }
         }
     }

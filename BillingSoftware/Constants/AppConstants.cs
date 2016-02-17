@@ -15,6 +15,7 @@ namespace BillingSoftware.Constants
         public const string ACCESS_TOKEN = "AccessToken";
         public const string USER_NAME = "user_name";
         public const string PASSWORD = "password";
-
+        internal static string LOGIN_SUCCESS = "Login success";
+        internal static object ADMIN_CREATED = "Admin created successfully";
     }
 }
