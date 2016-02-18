@@ -79,6 +79,7 @@ namespace BillingSoftware.Managers
                         username = AppConstants.SUPER_ADMIN_USER_NAME,
                         salt = salt,
                         password = PasswordHash.CreateHash(AppConstants.SUPER_ADMIN_PASSWORD, salt),
+                        type = (int)BillingEnums.USER_TYPE.SUPER_ADMIN,
                         created_at = DateTime.UtcNow
                     };
 

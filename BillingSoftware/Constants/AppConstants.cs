@@ -14,8 +14,9 @@ namespace BillingSoftware.Constants
         public const int SESSION_ID_LENGTH = 26;
         public const string ACCESS_TOKEN = "AccessToken";
         public const string USER_NAME = "user_name";
-        public const string PASSWORD = "password";
-        internal static string LOGIN_SUCCESS = "Login success";
-        internal static object ADMIN_CREATED = "Admin created successfully";
+        public const string PASSWORD = "password";        
+        public const string ID = "id";
+        public const string OLD_PASSWORD = "old_password";
+        public const string NEW_PASSWORD = "new_password";
     }
 }
