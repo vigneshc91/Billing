@@ -244,5 +244,32 @@ namespace BillingSoftware.Controllers
             return Json(response);
 
         }
+
+        public JsonResult GetAdminList()
+        {
+            var response = new ServiceResponse();
+            var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
+            if(admin == null)
+            {
+                response.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
+                return Json(response);
+            }
+
+            try
+            {
+                response.result = adminManager.GetAdminList(admin);
+                response.status = true;
+
+                return Json(response);
+            }
+            catch (Exception e)
+            {
+
+                Console.Error.WriteLine(e.GetBaseException().Message);
+            }
+
+            return Json(response);
+
+        }
     }
 }

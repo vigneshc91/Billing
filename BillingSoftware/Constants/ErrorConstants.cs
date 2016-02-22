@@ -24,5 +24,6 @@ namespace BillingSoftware.Constants
         public const string ADMIN_NOT_FOUND = "Admin not found";
         public const string PROBLEM_DELETING_AMDIN = "Problem in deleting admin. Please try again";
         public const string NO_CHANGES = "No changes to made";
+        public const string PROBLEM_OCCURES_ON_RETRIVING_ADMIN_LIST = "Problem occured on retriving admin list. Please try again";
     }
 }

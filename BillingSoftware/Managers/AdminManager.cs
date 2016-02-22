@@ -264,5 +264,43 @@ namespace BillingSoftware.Managers
                 throw e;
             }
         }
+
+        public List<Admin> GetAdminList(Admin admin)
+        {
+            if (admin == null || admin.type != (int)BillingEnums.USER_TYPE.SUPER_ADMIN) throw new Exception(ErrorConstants.NO_PREVILAGE);
+
+            try
+            {
+                var elasticClient = GetElasticClient();
+
+                var response = elasticClient.Search<Admin>(s => s
+                .Index(ElasticMappingConstants.INDEX_NAME)
+                .Type(ElasticMappingConstants.TYPE_ADMIN)
+                .Filter(f => f.Term(ConstAdmin.TYPE, (int)BillingEnums.USER_TYPE.ADMIN))
+                .SortAscending(a => a.username)
+                .Size(int.MaxValue));
+
+                if (!response.RequestInformation.Success)
+                    throw new Exception(ErrorConstants.PROBLEM_OCCURES_ON_RETRIVING_ADMIN_LIST);
+
+                var adminList = new List<Admin>();
+
+                foreach (var hit in response.Hits)
+                {
+                    var resultAdmin = hit.Source;
+                    resultAdmin.salt = null;
+                    resultAdmin.password = null;
+                    adminList.Add(resultAdmin);
+                }
+
+                return adminList;
+            }
+            catch (Exception e )
+            {
+
+                throw e;
+            }
+            
+        }
     }
 }
