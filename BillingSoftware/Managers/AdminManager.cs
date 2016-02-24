@@ -51,10 +51,7 @@ namespace BillingSoftware.Managers
                 }
                 else
                     return null;
-
-
-                return admin;
-
+                
 
             }
             catch (Exception e)

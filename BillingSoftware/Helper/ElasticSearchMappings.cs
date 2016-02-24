@@ -16,6 +16,10 @@ namespace BillingSoftware.Helper
             {
                 if (!CreateAdmin(client)) throw new Exception();
             }
+            if(!client.TypeExists(typeExists => typeExists.Index(ElasticMappingConstants.INDEX_NAME).Type(ElasticMappingConstants.TYPE_PRODUCT)).Exists)
+            {
+                if (!CreateProduct(client)) throw new Exception();
+            }
         }
 
         private bool CreateAdmin(ElasticClient client)
@@ -23,6 +27,18 @@ namespace BillingSoftware.Helper
             var response = client.Map<Admin>(u => u
             .Index(ElasticMappingConstants.INDEX_NAME)
             .Type(ElasticMappingConstants.TYPE_ADMIN)
+            .AllField(af => af.Enabled())
+            .MapFromAttributes()
+            );
+
+            return response.Acknowledged;
+        }
+
+        private bool CreateProduct(ElasticClient client)
+        {
+            var response = client.Map<Product>(u => u
+            .Index(ElasticMappingConstants.INDEX_NAME)
+            .Type(ElasticMappingConstants.TYPE_PRODUCT)
             .AllField(af => af.Enabled())
             .MapFromAttributes()
             );

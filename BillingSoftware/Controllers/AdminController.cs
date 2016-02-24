@@ -231,8 +231,14 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                response.result = adminManager.DeleteAdmin(admin, adminId) ? SuccessConstants.ADMIN_DELETED : ErrorConstants.PROBLEM_DELETING_AMDIN;
-                response.status = true;
+                if (adminManager.DeleteAdmin(admin, adminId))
+                {
+                    response.result = SuccessConstants.ADMIN_DELETED;
+                    response.status = true;
+                }
+                else
+                    response.result =  ErrorConstants.PROBLEM_DELETING_AMDIN;
+
                 return Json(response);
             }
             catch (Exception e)

@@ -11,7 +11,7 @@ namespace BillingSoftware.Models
     public class Product
     {
         [ElasticProperty(Name =ConstProduct.ID, Index =FieldIndexOption.NotAnalyzed)]
-        public string id { get; set; }
+        public string productid { get; set; }
 
         [ElasticProperty(Name =ConstProduct.PRODUCT_NAME, Index =FieldIndexOption.Analyzed)]
         public string productname { get; set; }

@@ -16,7 +16,7 @@ namespace BillingSoftware.Constants
 
     public class ConstAdmin
     {
-        public const string ID = "id";
+        public const string ID = "product_id";
         public const string USER_NAME = "user_name";
         public const string PASSWORD = "password";
         public const string SALT = "salt";
