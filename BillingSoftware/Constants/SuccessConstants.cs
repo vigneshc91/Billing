@@ -12,5 +12,7 @@ namespace BillingSoftware.Constants
         public const string PASSWORD_UPDATED = "Password changed";
         public const string ADMIN_DELETED = "Admin deleted";
         public const string PRODUCT_ADDED = "Product added successfully";
+        public const string PRODUCT_UPDATED = "Product updated successfully";
+        public const string PRODUCT_DELETED = "Product deleted successfully";
     }
 }

@@ -27,6 +27,9 @@ namespace BillingSoftware.Constants
         public const string PROBLEM_OCCURES_ON_RETRIVING_ADMIN_LIST = "Problem occured on retriving admin list. Please try again";
         public const string INVALID_DATA = "Invalid data. Please check the value you entered";
         public const string PROBLEM_ADDING_PRODUCT = "Problem in adding product. Please try again";
-        public static string PRODUCT_WITH_GIVEN_ID_ALREADY_EXIST;
+        public const string PRODUCT_WITH_GIVEN_ID_ALREADY_EXIST = "Product with given id already exist. Please use different product id";
+        public const string PRODUCT_NOT_FOUND = "Product with the given id not found. Please check the product id";
+        public const string PROBLEM_UPDATING_PRODUCT = "Problem in updating product. Please try again";
+        public const string PROBLEM_DELETING_PRODUCT = "Problem in deleting product. Please try again";
     }
 }

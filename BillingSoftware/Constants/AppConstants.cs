@@ -25,5 +25,9 @@ namespace BillingSoftware.Constants
         public const string PRICE = "price";
         public const string QUANTITY = "quantity";
         public const string UNIT = "unit";
+        public const string START = "start";
+        public const string SIZE = "size";
+        public const int START_VALUE = 0;
+        public const int SIZE_VALUE = 10;
     }
 }
