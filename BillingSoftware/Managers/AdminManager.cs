@@ -199,7 +199,7 @@ namespace BillingSoftware.Managers
         public bool ChangePassword(Admin admin, Guid userId, string oldPassword, string newPassword)
         {
             if (userId == null || String.IsNullOrWhiteSpace(oldPassword) || String.IsNullOrWhiteSpace(newPassword)) throw new Exception(ErrorConstants.REQUIRED_FIELD_EMPTY);
-            if (admin == null) throw new Exception(ErrorConstants.ADMIN_NOT_LOGGED_IN);
+            if (admin == null || admin.id != userId) throw new Exception(ErrorConstants.NO_PREVILAGE);
 
             try
             {

@@ -44,7 +44,7 @@ namespace BillingSoftware.Controllers
             double priceDouble;
             float quantityFloat;
             Int16 unitInt;
-            if(!Double.TryParse(price, out priceDouble) || !float.TryParse(quantity, out quantityFloat) || Int16.TryParse(unit, out unitInt))
+            if(!Double.TryParse(price, out priceDouble) || !float.TryParse(quantity, out quantityFloat) || !Int16.TryParse(unit, out unitInt))
             {
                 response.result = ErrorConstants.INVALID_DATA;
                 return Json(response);
@@ -76,6 +76,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -102,13 +103,19 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                respone.result = productManager.GetProductById(admin, id);
-                respone.status = true;
+                var product = productManager.GetProductById(admin, id);
+                if(product != null)
+                {
+                    respone.result = product;
+                    respone.status = true;
+                } else
+                respone.result = ErrorConstants.PRODUCT_NOT_FOUND;
             }
             catch (Exception e)
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                respone.result = e.GetBaseException().Message;
             }
 
             return Json(respone);
@@ -178,6 +185,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -217,6 +225,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -253,6 +262,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -293,6 +303,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);

@@ -211,7 +211,7 @@ namespace BillingSoftware.Managers
                 var response = elasticClient.Search<Product>(s => s
                 .Index(ElasticMappingConstants.INDEX_NAME)
                 .Type(ElasticMappingConstants.TYPE_PRODUCT)
-                .Query(q => q.Term(ConstProduct.PRODUCT_NAME, name))
+                .Query(q => q.Prefix(ConstProduct.PRODUCT_NAME, name))
                 .Skip(start)
                 .Take(size)
                 );

@@ -53,6 +53,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -80,6 +81,7 @@ namespace BillingSoftware.Controllers
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                
             }
 
             return View();
@@ -118,6 +120,7 @@ namespace BillingSoftware.Controllers
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -156,6 +159,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -201,6 +205,7 @@ namespace BillingSoftware.Controllers
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -245,6 +250,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
@@ -272,6 +278,7 @@ namespace BillingSoftware.Controllers
             {
 
                 Console.Error.WriteLine(e.GetBaseException().Message);
+                response.result = e.GetBaseException().Message;
             }
 
             return Json(response);
