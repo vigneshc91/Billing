@@ -29,5 +29,18 @@ namespace BillingSoftware.Constants
         public const string SIZE = "size";
         public const int START_VALUE = 0;
         public const int SIZE_VALUE = 10;
+
+        public const string USER_ID = "user_id";
+        public const string NAME = "name";
+        public const string ADDRESS_1 = "address_1";
+        public const string ADDRESS_2 = "address_2";
+        public const string CITY = "city";
+        public const string DISTRICT = "district";
+        public const string STATE = "state";
+        public const string COUNTRY = "country";
+        public const string PIN_CODE = "pin_code";
+        public const string PHONE = "phone";
+        public const string EMAIL = "email";
+        
     }
 }
