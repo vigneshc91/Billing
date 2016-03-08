@@ -10,20 +10,19 @@ using System.Web.Mvc;
 
 namespace BillingSoftware.Controllers
 {
-    public class UserController : Controller
+    public class EmployeeController : Controller
     {
 
-        UserManager userManager = new UserManager();
-        
-        // GET: User
+        EmployeeManager employeeManager = new EmployeeManager();
+        // GET: Employee
         public ActionResult Index()
         {
             return View();
         }
 
-        public JsonResult AddUser()
+        public JsonResult AddEmployee()
         {
-            var id = Request.Params.Get(AppConstants.USER_ID);
+            var id = Request.Params.Get(AppConstants.EMPLOYEE_ID);
             var name = Request.Params.Get(AppConstants.NAME);
             var addr1 = Request.Params.Get(AppConstants.ADDRESS_1);
             var addr2 = Request.Params.Get(AppConstants.ADDRESS_2);
@@ -34,16 +33,17 @@ namespace BillingSoftware.Controllers
             var phone = Request.Params.Get(AppConstants.PHONE);
             var pinCode = Request.Params.Get(AppConstants.PIN_CODE);
             var email = Request.Params.Get(AppConstants.EMAIL);
+            var designation = Request.Params.Get(AppConstants.DESIGNATION);
 
             var response = new ServiceResponse();
 
             var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
-            if(admin == null)
+            if (admin == null)
             {
                 response.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
                 return Json(response);
             }
-            if(String.IsNullOrWhiteSpace(id) || String.IsNullOrWhiteSpace(name))
+            if (String.IsNullOrWhiteSpace(id) || String.IsNullOrWhiteSpace(name))
             {
                 response.result = ErrorConstants.REQUIRED_FIELD_EMPTY;
                 return Json(response);
@@ -51,9 +51,9 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                var user = new User()
+                var employee = new Employee()
                 {
-                    userid = id,
+                    employeeid = id,
                     name = name,
                     addr1 = addr1,
                     addr2 = addr2,
@@ -64,22 +64,23 @@ namespace BillingSoftware.Controllers
                     pincode = pinCode,
                     phone = phone,
                     email = email,
+                    designation = designation,
                     created_at = DateTime.UtcNow
                 };
 
-                if (userManager.AddUser(admin, user))
+                if (employeeManager.AddEmployee(admin, employee))
                 {
-                    response.result = SuccessConstants.USER_ADDED;
+                    response.result = SuccessConstants.EMPLOYEE_ADDED;
                     response.status = true;
                 }
                 else
-                    response.result = ErrorConstants.PROBLEM_ADDING_USER;
+                    response.result = ErrorConstants.PROBLEM_ADDING_EMPLOYEE;
 
                 return Json(response);
             }
             catch (Exception e)
             {
-                
+
                 Console.Error.WriteLine(e.GetBaseException().Message);
                 response.result = e.GetBaseException().Message;
             }
@@ -88,9 +89,9 @@ namespace BillingSoftware.Controllers
 
         }
 
-        public JsonResult UpdateUser()
+        public JsonResult UpdateEmployee()
         {
-            var id = Request.Params.Get(AppConstants.USER_ID);
+            var id = Request.Params.Get(AppConstants.EMPLOYEE_ID);
             var name = Request.Params.Get(AppConstants.NAME);
             var addr1 = Request.Params.Get(AppConstants.ADDRESS_1);
             var addr2 = Request.Params.Get(AppConstants.ADDRESS_2);
@@ -101,11 +102,12 @@ namespace BillingSoftware.Controllers
             var phone = Request.Params.Get(AppConstants.PHONE);
             var pinCode = Request.Params.Get(AppConstants.PIN_CODE);
             var email = Request.Params.Get(AppConstants.EMAIL);
+            var designation = Request.Params.Get(AppConstants.DESIGNATION);
 
             var response = new ServiceResponse();
 
             var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
-            if(admin == null)
+            if (admin == null)
             {
                 response.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
                 return Json(response);
@@ -115,7 +117,7 @@ namespace BillingSoftware.Controllers
                 response.result = ErrorConstants.REQUIRED_FIELD_EMPTY;
                 return Json(response);
             }
-            if(String.IsNullOrWhiteSpace(name) && String.IsNullOrWhiteSpace(addr1) && String.IsNullOrWhiteSpace(addr2) && String.IsNullOrWhiteSpace(city) && String.IsNullOrWhiteSpace(district) && String.IsNullOrWhiteSpace(state) && String.IsNullOrWhiteSpace(country) && String.IsNullOrWhiteSpace(pinCode) && String.IsNullOrWhiteSpace(phone) && String.IsNullOrWhiteSpace(email))
+            if (String.IsNullOrWhiteSpace(name) && String.IsNullOrWhiteSpace(addr1) && String.IsNullOrWhiteSpace(addr2) && String.IsNullOrWhiteSpace(city) && String.IsNullOrWhiteSpace(district) && String.IsNullOrWhiteSpace(state) && String.IsNullOrWhiteSpace(country) && String.IsNullOrWhiteSpace(pinCode) && String.IsNullOrWhiteSpace(phone) && String.IsNullOrWhiteSpace(email) && String.IsNullOrWhiteSpace(designation))
             {
                 response.result = ErrorConstants.NO_CHANGES;
                 return Json(response);
@@ -123,9 +125,9 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                var user = new User()
+                var employee = new Employee()
                 {
-                    userid = id,
+                    employeeid = id,
                     name = name,
                     addr1 = addr1,
                     addr2 = addr2,
@@ -136,15 +138,16 @@ namespace BillingSoftware.Controllers
                     pincode = pinCode,
                     phone = phone,
                     email = email,
+                    designation = designation
                 };
 
-                if (userManager.UpdateUser(admin, user))
+                if (employeeManager.UpdateEmployee(admin, employee))
                 {
-                    response.result = SuccessConstants.USER_UPDATED;
+                    response.result = SuccessConstants.EMPLOYEE_UPDATED;
                     response.status = true;
                 }
                 else
-                    response.result = ErrorConstants.PROBLEM_UPDATING_USER;
+                    response.result = ErrorConstants.PROBLEM_UPDATING_EMPLOYEE;
 
                 return Json(response);
             }
@@ -157,14 +160,14 @@ namespace BillingSoftware.Controllers
 
             return Json(response);
         }
-        
-        public JsonResult DeleteUser()
+
+        public JsonResult DeleteEmployee()
         {
-            var id = Request.Params.Get(AppConstants.USER_ID);
+            var id = Request.Params.Get(AppConstants.EMPLOYEE_ID);
 
             var response = new ServiceResponse();
             var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
-            if(admin == null)
+            if (admin == null)
             {
                 response.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
                 return Json(response);
@@ -177,16 +180,16 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                if (userManager.DeleteUser(admin, id))
+                if (employeeManager.DeleteEmployee(admin, id))
                 {
-                    response.result = SuccessConstants.USER_DELETED;
+                    response.result = SuccessConstants.EMPLOYEE_DELETED;
                     response.status = true;
                 }
                 else
-                    response.result = ErrorConstants.PROBLEM_DELETING_USER;
+                    response.result = ErrorConstants.PROBLEM_DELETING_EMPLOYEE;
 
                 return Json(response);
-                
+
             }
             catch (Exception e)
             {
@@ -197,14 +200,14 @@ namespace BillingSoftware.Controllers
 
             return Json(response);
         }
-        
-        public JsonResult GetUserById()
+
+        public JsonResult GetEmployeeById()
         {
-            var id = Request.Params.Get(AppConstants.USER_ID);
+            var id = Request.Params.Get(AppConstants.EMPLOYEE_ID);
 
             var response = new ServiceResponse();
             var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
-            if(admin == null)
+            if (admin == null)
             {
                 response.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
                 return Json(response);
@@ -217,14 +220,14 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                var user = userManager.GetUserById(admin, id);
-                if (user != null)
+                var employee = employeeManager.GetEmployeeById(admin, id);
+                if (employee != null)
                 {
-                    response.result = user;
+                    response.result = employee;
                     response.status = true;
                 }
                 else
-                    response.result = ErrorConstants.USER_NOT_FOUND;
+                    response.result = ErrorConstants.EMPLOYEE_NOT_FOUND;
 
                 return Json(response);
             }
@@ -237,8 +240,8 @@ namespace BillingSoftware.Controllers
 
             return Json(response);
         }
-        
-        public JsonResult GetUserList()
+
+        public JsonResult GetEmployeeList()
         {
             var start = Request.Params.Get(AppConstants.START);
             var size = Request.Params.Get(AppConstants.SIZE);
@@ -247,7 +250,7 @@ namespace BillingSoftware.Controllers
 
             var respone = new ServiceResponse();
             var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
-            if(admin == null)
+            if (admin == null)
             {
                 respone.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
                 return Json(respone);
@@ -258,7 +261,7 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                respone.result = userManager.GetUserList(admin, intStart, intSize);
+                respone.result = employeeManager.GetEmployeeList(admin, intStart, intSize);
                 respone.status = true;
             }
             catch (Exception e)
@@ -271,8 +274,8 @@ namespace BillingSoftware.Controllers
             return Json(respone);
 
         }
-        
-        public JsonResult GetUsersByName()
+
+        public JsonResult GetEmployeesByName()
         {
             var name = Request.Params.Get(AppConstants.NAME);
             var start = Request.Params.Get(AppConstants.START);
@@ -282,7 +285,7 @@ namespace BillingSoftware.Controllers
 
             var respone = new ServiceResponse();
             var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
-            if(admin == null)
+            if (admin == null)
             {
                 respone.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
                 return Json(respone);
@@ -298,7 +301,7 @@ namespace BillingSoftware.Controllers
 
             try
             {
-                respone.result = userManager.GetUsersByName(admin, name, intStart, intSize);
+                respone.result = employeeManager.GetEmployeesByName(admin, name, intStart, intSize);
                 respone.status = true;
             }
             catch (Exception e)
@@ -309,6 +312,6 @@ namespace BillingSoftware.Controllers
             }
 
             return Json(respone);
-        } 
+        }
     }
 }

@@ -171,7 +171,7 @@ namespace BillingSoftware.Managers
             }
         }
 
-        public List<User> getUserList(Admin admin, int start, int size)
+        public List<User> GetUserList(Admin admin, int start, int size)
         {
             if (admin == null || admin.type != (int)BillingEnums.USER_TYPE.ADMIN) throw new Exception(ErrorConstants.NO_PREVILAGE);
 

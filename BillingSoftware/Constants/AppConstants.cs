@@ -41,6 +41,8 @@ namespace BillingSoftware.Constants
         public const string PIN_CODE = "pin_code";
         public const string PHONE = "phone";
         public const string EMAIL = "email";
-        
+
+        public const string EMPLOYEE_ID = "employee_id";
+        public const string DESIGNATION = "designation";
     }
 }

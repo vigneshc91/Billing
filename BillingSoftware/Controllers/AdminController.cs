@@ -167,11 +167,9 @@ namespace BillingSoftware.Controllers
 
         public JsonResult ChangePassword()
         {
-            var id = Request.Params.Get(AppConstants.ID);
             var oldPassword = Request.Params.Get(AppConstants.OLD_PASSWORD);
             var newPassword = Request.Params.Get(AppConstants.NEW_PASSWORD);
 
-            Guid userId;
 
             var response = new ServiceResponse();
             var admin = CookieHelper.GetLoggedInAdmin(HttpContext);
@@ -180,7 +178,7 @@ namespace BillingSoftware.Controllers
                 response.result = ErrorConstants.ADMIN_NOT_LOGGED_IN;
                 return Json(response);
             }
-            if(String.IsNullOrWhiteSpace(id) || String.IsNullOrWhiteSpace(oldPassword) || String.IsNullOrWhiteSpace(newPassword))
+            if(String.IsNullOrWhiteSpace(oldPassword) || String.IsNullOrWhiteSpace(newPassword))
             {
                 response.result = ErrorConstants.REQUIRED_FIELD_EMPTY;
                 return Json(response);
@@ -190,14 +188,10 @@ namespace BillingSoftware.Controllers
                 response.result = ErrorConstants.NO_CHANGES;
                 return Json(response);
             }
-            if(!Guid.TryParse(id, out userId))
-            {
-                response.result = ErrorConstants.INVALID_ID;
-                return Json(response);
-            }
+            
             try
             {
-                response.result =  adminManager.ChangePassword(admin, userId, oldPassword, newPassword) ? SuccessConstants.PASSWORD_UPDATED : ErrorConstants.PASSWORD_UPDATE_FAILED;
+                response.result =  adminManager.ChangePassword(admin, oldPassword, newPassword) ? SuccessConstants.PASSWORD_UPDATED : ErrorConstants.PASSWORD_UPDATE_FAILED;
                 response.status = true;
 
                 return Json(response);

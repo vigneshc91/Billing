@@ -11,7 +11,7 @@ namespace BillingSoftware.Models
     public class Employee
     {
         [ElasticProperty(Name = ConstEmployee.ID, Index = FieldIndexOption.NotAnalyzed)]
-        public Guid employeeid { get; set; }
+        public string employeeid { get; set; }
 
         [ElasticProperty(Name = ConstEmployee.NAME, Index = FieldIndexOption.Analyzed)]
         public string name { get; set; }

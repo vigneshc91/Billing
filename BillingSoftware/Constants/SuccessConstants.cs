@@ -19,5 +19,9 @@ namespace BillingSoftware.Constants
         public const string USER_ADDED = "user added successfully";
         public const string USER_UPDATED = "user updated successfully";
         public const string USER_DELETED = "user deleted successfully";
+
+        public const string EMPLOYEE_ADDED = "employee added successfully";
+        public const string EMPLOYEE_UPDATED = "employee updated successfully";
+        public const string EMPLOYEE_DELETED = "employee deleted successfully";
     }
 }

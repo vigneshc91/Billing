@@ -196,14 +196,14 @@ namespace BillingSoftware.Managers
             }
         }
 
-        public bool ChangePassword(Admin admin, Guid userId, string oldPassword, string newPassword)
+        public bool ChangePassword(Admin admin, string oldPassword, string newPassword)
         {
-            if (userId == null || String.IsNullOrWhiteSpace(oldPassword) || String.IsNullOrWhiteSpace(newPassword)) throw new Exception(ErrorConstants.REQUIRED_FIELD_EMPTY);
-            if (admin == null || admin.id != userId) throw new Exception(ErrorConstants.NO_PREVILAGE);
+            if (String.IsNullOrWhiteSpace(oldPassword) || String.IsNullOrWhiteSpace(newPassword)) throw new Exception(ErrorConstants.REQUIRED_FIELD_EMPTY);
+            if (admin == null) throw new Exception(ErrorConstants.NO_PREVILAGE);
 
             try
             {
-                var updateAdmin = GetAdminById(userId);
+                var updateAdmin = GetAdminById(admin.id);
                 if (updateAdmin == null)
                     throw new Exception(ErrorConstants.ADMIN_NOT_FOUND);
 
@@ -219,7 +219,7 @@ namespace BillingSoftware.Managers
                 var response = elasticClient.Update<Admin, object>(u => u
                 .Index(ElasticMappingConstants.INDEX_NAME)
                 .Type(ElasticMappingConstants.TYPE_ADMIN)
-                .Id(userId.ToString())
+                .Id(admin.id.ToString())
                 .Doc(passwordDict));
 
                 if (response.RequestInformation.Success)

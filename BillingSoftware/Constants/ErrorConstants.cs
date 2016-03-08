@@ -39,5 +39,11 @@ namespace BillingSoftware.Constants
         public const string USER_NOT_FOUND = "user with the given id not found. Please check the product id";
         public const string PROBLEM_UPDATING_USER = "Problem in updating user. Please try again";
         public const string PROBLEM_DELETING_USER = "Problem in deleting user. Please try again";
+
+        public const string PROBLEM_ADDING_EMPLOYEE = "Problem in adding employee. Please try again";
+        public const string EMPLOYEE_WITH_GIVEN_ID_ALREADY_EXIST = "employee with given id already exist. Please use different product id";
+        public const string EMPLOYEE_NOT_FOUND = "employee with the given id not found. Please check the product id";
+        public const string PROBLEM_UPDATING_EMPLOYEE = "Problem in updating employee. Please try again";
+        public const string PROBLEM_DELETING_EMPLOYEE = "Problem in deleting employee. Please try again";
     }
 }
