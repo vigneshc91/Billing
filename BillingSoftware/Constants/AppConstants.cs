@@ -44,5 +44,12 @@ namespace BillingSoftware.Constants
 
         public const string EMPLOYEE_ID = "employee_id";
         public const string DESIGNATION = "designation";
+
+        public const string SALES_ID = "sales_id";
+        public const string DATE_TIME = "date_time";
+        public const string SALES_INFO = "sales_info";
+        public const string TAX = "tax";
+        public const string DISCOUNT = "discount";
+        
     }
 }
