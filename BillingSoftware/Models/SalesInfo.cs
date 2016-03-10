@@ -11,7 +11,7 @@ namespace BillingSoftware.Models
     public class SalesInfo
     {
         [ElasticProperty(Name = ConstSalesInfo.SALES_ID, Index = FieldIndexOption.NotAnalyzed)]
-        public string salesid { get; set; }
+        public Guid salesid { get; set; }
 
         [ElasticProperty(Name = ConstSalesInfo.PRODUCT_ID, Index = FieldIndexOption.NotAnalyzed)]
         public string productid { get; set; }

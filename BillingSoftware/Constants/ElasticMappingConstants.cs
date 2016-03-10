@@ -74,6 +74,7 @@ namespace BillingSoftware.Constants
     public class ConstSales
     {
         public const string ID = "sales_id";
+        public const string BILL_NO = "bill_no";
         public const string DATE_TIME = "date_time";
         public const string USER_ID = "user_id";
         public const string USER_NAME = "user_name";

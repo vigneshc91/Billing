@@ -12,5 +12,11 @@ namespace BillingSoftware.Constants
             SUPER_ADMIN = 1,
             ADMIN = 2
         }
+
+        public enum STATUS
+        {
+            CLEARED = 1,
+            CANCELLED = 2
+        }
     }
 }
