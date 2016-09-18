@@ -31,18 +31,18 @@ namespace BillingSoftware.Managers
                 foreach (var item in salesInfo)
                 {
                     item.salesid = sales.salesid;
-
                     
-                    //insertDescriptor.Index<SalesInfo>(item, i => i
-                    //.Index(ElasticMappingConstants.INDEX_NAME)
-                    //.Type(ElasticMappingConstants.TYPE_SALES_INFO)
-                    //);
+                    insertDescriptor.Index<SalesInfo>(i => i
+                    .Index(ElasticMappingConstants.INDEX_NAME)
+                    .Type(ElasticMappingConstants.TYPE_SALES_INFO)
+                    .Document(item)
+                    );
                 }
 
 
                 var bulkResponse = elasticClient.Bulk(insertDescriptor);
 
-                return bulkResponse.RequestInformation.Success;
+                return salesResponse.RequestInformation.Success && bulkResponse.RequestInformation.Success;
 
             }
             catch (Exception e)
@@ -51,6 +51,25 @@ namespace BillingSoftware.Managers
                 throw e;
             }
 
+        }
+
+        public bool UpdateStock(List<SalesInfo> salesInfo) {
+            try {
+
+                var elasticClient = GetElasticClient();
+
+                var updateDescriptor = new BulkDescriptor();
+
+                foreach (var item in salesInfo) {
+                    
+                }
+
+            } catch (Exception e) {
+
+                throw e;
+            }
+
+            return false;
         }
     }
 }
